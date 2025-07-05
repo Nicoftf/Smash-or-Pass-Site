@@ -1,108 +1,411 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smash or Pass - Creator Edition</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
         :root {
-            --primary-color: #9b59b6; --secondary-color: #8e44ad; --bg-color: #2c2c54;
-            --card-bg-color: #474787; --text-color: #f7f1e3; --smash-color: #2ecc71;
-            --pass-color: #e74c3c; --edit-color: #3498db; --smash-hover: #27ae60;
-            --pass-hover: #c0392b; --edit-hover: #2980b9; --input-bg: #343466;
+            --primary-color: #9b59b6;
+            --secondary-color: #8e44ad;
+            --bg-color: #2c2c54;
+            --card-bg-color: #474787;
+            --text-color: #f7f1e3;
+            --smash-color: #2ecc71;
+            --pass-color: #e74c3c;
+            --edit-color: #3498db;
+            --smash-hover: #27ae60;
+            --pass-hover: #c0392b;
+            --edit-hover: #2980b9;
+            --input-bg: #343466;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, var(--bg-color), var(--secondary-color));
-            color: var(--text-color); display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; padding: 20px; overflow-y: auto;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), var(--secondary-color));
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
         }
-        .hidden { display: none !important; }
+
+        .hidden {
+            display: none !important;
+        }
+
         .screen {
-            background-color: var(--card-bg-color); padding: 40px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; width: 100%; max-width: 800px;
+            background-color: var(--card-bg-color);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
             transition: all 0.3s ease;
         }
-        .screen h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--primary-color); text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-        .screen h2 { font-weight: 400; margin-bottom: 30px; }
+
+        .screen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .screen h2 {
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+
         .btn {
-            background-color: var(--primary-color); color: var(--text-color); border: none; padding: 15px 30px;
-            margin: 5px; border-radius: 10px; font-size: 1.1rem; cursor: pointer;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 15px 30px;
+            margin: 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .btn:hover { background-color: var(--secondary-color); transform: translateY(-3px); }
-        .btn.secondary { background-color: #6c757d; }
-        .btn.secondary:hover { background-color: #5a6268; }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .btn.secondary {
+            background-color: #6c757d;
+        }
+
+        .btn.secondary:hover {
+            background-color: #5a6268;
+        }
 
         /* --- Start Screen --- */
-        #set-selection-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; min-height: 50px; }
-        #empty-sets-message { color: rgba(255,255,255,0.6); font-style: italic; }
-        .set-button-wrapper { position: relative; }
-        .set-action-btn {
-            position: absolute; top: -12px; width: 28px; height: 28px;
-            color: white; border: 2px solid var(--card-bg-color);
-            border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 16px;
-            display: flex; justify-content: center; align-items: center; line-height: 1;
-            transition: transform 0.2s; z-index: 10;
+        #set-selection-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            min-height: 50px;
         }
-        .set-action-btn:hover { transform: scale(1.15); }
-        .delete-set-btn { background-color: var(--pass-color); right: -10px; }
-        .edit-set-btn { background-color: var(--edit-color); right: 25px; }
+
+        #empty-sets-message {
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        .set-button-wrapper {
+            position: relative;
+        }
+
+        .set-action-btn {
+            position: absolute;
+            top: -12px;
+            width: 28px;
+            height: 28px;
+            color: white;
+            border: 2px solid var(--card-bg-color);
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+
+        .set-action-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .delete-set-btn {
+            background-color: var(--pass-color);
+            right: -10px;
+        }
+
+        .edit-set-btn {
+            background-color: var(--edit-color);
+            right: 25px;
+        }
 
         /* --- Game Screen --- */
-        .game-container { width: 100%; max-width: 400px; background-color: var(--card-bg-color); border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); overflow: hidden; display: flex; flex-direction: column; }
-        .character-card { position: relative; height: 500px; overflow: hidden; background-color: #222; }
-        #image-slider { display: flex; height: 100%; transition: transform 0.4s ease-in-out; }
-        .character-image { height: 100%; object-fit: cover; }
-        .slide-arrow { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.4); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 24px; display: flex; justify-content: center; align-items: center; z-index: 10; }
-        .slide-arrow:hover { background-color: rgba(0, 0, 0, 0.7); }
-        #prev-slide { left: 10px; } #next-slide { right: 10px; }
-        #dots-container { position: absolute; bottom: 65px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.5); cursor: pointer; transition: background-color 0.3s ease; }
-        .dot.active { background-color: white; }
-        #progress-bar { position: absolute; top: 0; left: 0; width: 100%; height: 5px; background-color: rgba(255,255,255,0.2); z-index: 11; }
-        #progress-bar-fill { height: 100%; background-color: var(--primary-color); transition: width 0.3s ease-in-out; }
-        #character-name { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; font-size: 2rem; font-weight: 700; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); text-shadow: 2px 2px 5px rgba(0,0,0,0.7); z-index: 9; }
-        .controls { display: flex; justify-content: space-around; padding: 20px; }
-        .control-btn { width: 80px; height: 80px; border-radius: 50%; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .control-btn:active { transform: scale(0.9); }
-        .control-btn svg { width: 40px; height: 40px; fill: white; }
-        #pass-btn { background-color: var(--pass-color); } #pass-btn:hover { background-color: var(--pass-hover); }
-        #smash-btn { background-color: var(--smash-color); } #smash-btn:hover { background-color: var(--smash-hover); }
+        .game-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-bg-color);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .character-card {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            background-color: #222;
+        }
+
+        #image-slider {
+            display: flex;
+            height: 100%;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .character-image {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.4);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .slide-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        #prev-slide {
+            left: 10px;
+        }
+
+        #next-slide {
+            right: 10px;
+        }
+
+        #dots-container {
+            position: absolute;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: white;
+        }
+
+        #progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            z-index: 11;
+        }
+
+        #progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease-in-out;
+        }
+
+        #character-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            z-index: 9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .control-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn:active {
+            transform: scale(0.9);
+        }
+
+        .control-btn svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        #pass-btn {
+            background-color: var(--pass-color);
+        }
+
+        #pass-btn:hover {
+            background-color: var(--pass-hover);
+        }
+
+        #smash-btn {
+            background-color: var(--smash-color);
+        }
+
+        #smash-btn:hover {
+            background-color: var(--smash-hover);
+        }
 
         /* --- Summary Screen --- */
-        #smashed-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .smashed-character { position: relative; overflow: hidden; border-radius: 10px; }
-        .smashed-character img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .smashed-character p { position: absolute; bottom: 0; left: 0; width: 100%; padding: 5px; font-size: 0.9rem; font-weight: 600; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); text-align: center; }
+        #smashed-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .smashed-character {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .smashed-character img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .smashed-character p {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            text-align: center;
+        }
 
         /* --- Creation/Edit Screen --- */
-        #edit-create-form { display: flex; flex-direction: column; gap: 20px; text-align: left; }
-        .form-group { display: flex; flex-direction: column; gap: 8px; }
-        .form-group label { font-weight: 600; font-size: 1.1rem; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid transparent; background-color: var(--input-bg); color: var(--text-color); font-size: 1rem; transition: border-color 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-color); }
+        #edit-create-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
         #character-fields-container .character-field {
             position: relative;
-            background-color: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;
-            margin-bottom: 15px; border-left: 5px solid var(--secondary-color);
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--secondary-color);
         }
+
         .remove-char-btn {
-            position: absolute; top: 10px; right: 10px;
-            width: 25px; height: 25px; background: var(--pass-color); color: white;
-            border: none; border-radius: 50%; cursor: pointer; font-weight: bold;
-            display: flex; align-items: center; justify-content: center;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 25px;
+            height: 25px;
+            background: var(--pass-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
+
 <body>
 
     <div id="start-screen" class="screen">
         <h1>Smash or Pass</h1>
         <h2>Wähle ein Set zum Spielen aus</h2>
         <div id="set-selection-container">
-            </div>
+        </div>
         <hr style="border-color: rgba(255,255,255,0.1); margin: 30px 0;">
         <button id="show-create-screen-btn" class="btn">Neues Set erstellen</button>
     </div>
@@ -127,7 +430,22 @@
     </div>
 
     <div id="game-screen" class="game-container hidden">
-         <div class="character-card"><div id="progress-bar"><div id="progress-bar-fill"></div></div><div id="image-slider"></div><button id="prev-slide" class="slide-arrow">&#10094;</button><button id="next-slide" class="slide-arrow">&#10095;</button><div id="dots-container"></div><h2 id="character-name"></h2></div><div class="controls"><button id="pass-btn" class="control-btn"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button><button id="smash-btn" class="control-btn"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>
+        <div class="character-card">
+            <div id="progress-bar">
+                <div id="progress-bar-fill"></div>
+            </div>
+            <div id="image-slider"></div><button id="prev-slide" class="slide-arrow">&#10094;</button><button
+                id="next-slide" class="slide-arrow">&#10095;</button>
+            <div id="dots-container"></div>
+            <h2 id="character-name"></h2>
+        </div>
+        <div class="controls"><button id="pass-btn" class="control-btn"><svg viewBox="0 0 24 24">
+                    <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg></button><button id="smash-btn" class="control-btn"><svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg></button></div>
     </div>
 
     <div id="summary-screen" class="screen hidden">
@@ -138,252 +456,10 @@
 
 
     <script type="module">
-        // KORREKTUR: Die Imports verwenden jetzt die vollen URLs
+        import { firebaseConfig } from './config.js';
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-
-        // Verwende hier die firebaseConfig von deinem NEUESTEN, sauberen Projekt
-        const firebaseConfig = {
-        apiKey: "AIzaSyD_QMcoA-WNS9DHzx-dAzJAiHHEvsKbBU0",
-        authDomain: "candecate-smash-or-pass.firebaseapp.com",
-        projectId: "candecate-smash-or-pass",
-        storageBucket: "candecate-smash-or-pass.firebasestorage.app",
-        messagingSenderId: "264782387291",
-        appId: "1:264782387291:web:412ccb8f32672cb9c0c77e",
-        measurementId: "G-P5Z7889WSS"
-        };
-
-        /// KORRIGIERTER INITIALISIERUNGS-TEIL
+    
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app); // WICHTIG: Diese Zeile stellt die Datenbankverbindung her.
-        // Die Zeile "const analytics = getAnalytics(app);" wurde entfernt, da sie nicht benötigt wird.
-        const setsCollectionRef = collection(db, 'characterSets');
 
-        const screens = {
-            start: document.getElementById('start-screen'),
-            editCreate: document.getElementById('edit-create-screen'),
-            game: document.getElementById('game-screen'),
-            summary: document.getElementById('summary-screen')
-        };
-        const setSelectionContainer = document.getElementById('set-selection-container');
-        const showCreateScreenBtn = document.getElementById('show-create-screen-btn');
-        const editCreateForm = document.getElementById('edit-create-form');
-        const editCreateTitle = document.getElementById('edit-create-title');
-        const originalSetNameInput = document.getElementById('original-set-name');
-        const setNameInput = document.getElementById('set-name-input');
-        const characterFieldsContainer = document.getElementById('character-fields-container');
-        const addCharacterBtn = document.getElementById('add-character-btn');
-        const cancelEditCreateBtn = document.getElementById('cancel-edit-create-btn');
-        const saveSetBtn = document.getElementById('save-set-btn');
-
-        let characterSets = {};
-        let currentSet = [], currentIndex = 0, smashedCharacters = [], currentImageIndex = 0;
-        
-        async function loadSetsFromFirestore() {
-            try {
-                const snapshot = await getDocs(setsCollectionRef);
-                const onlineSets = {};
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    if (data && Array.isArray(data.characters)) {
-                        onlineSets[doc.id] = data.characters;
-                    } else {
-                        console.warn(`Set "${doc.id}" aus Firestore ist fehlerhaft und wird übersprungen.`);
-                    }
-                });
-                characterSets = onlineSets;
-            } catch (error) {
-                console.error("Fehler beim Laden der Sets aus Firestore: ", error);
-                alert("Die Online-Sets konnten nicht geladen werden. Bitte versuche es später erneut.");
-                characterSets = {};
-            }
-        }
-
-        async function saveSetToFirestore(setName, characters, originalName = null) {
-            try {
-                await setDoc(doc(db, "characterSets", setName), { characters });
-                if (originalName && originalName !== setName) {
-                    await deleteDoc(doc(db, "characterSets", originalName));
-                }
-                alert(`Set "${setName}" wurde erfolgreich online gespeichert!`);
-                return true;
-            } catch (error) {
-                console.error("Fehler beim Speichern des Sets: ", error);
-                alert("Fehler: Das Set konnte nicht online gespeichert werden.");
-                return false;
-            }
-        }
-
-        async function deleteSet(setName) {
-            if (confirm(`Möchtest du das Set "${setName}" wirklich für ALLE löschen?`)) {
-                try {
-                    await deleteDoc(doc(db, "characterSets", setName));
-                    delete characterSets[setName];
-                    displayStartScreen();
-                    alert(`Das Set "${setName}" wurde online gelöscht.`);
-                } catch (error) {
-                    console.error("Fehler beim Löschen des Sets: ", error);
-                    alert("Das Set konnte nicht gelöscht werden.");
-                }
-            }
-        }
-
-        function switchScreen(screenToShow) {
-            Object.values(screens).forEach(screen => screen.classList.add('hidden'));
-            screenToShow.classList.remove('hidden');
-        }
-
-        function displayStartScreen() {
-            setSelectionContainer.innerHTML = '';
-            if (Object.keys(characterSets).length === 0) {
-                setSelectionContainer.innerHTML = `<p id="empty-sets-message">Noch keine Sets vorhanden. Erstelle das erste Set!</p>`;
-            } else {
-                for (const setName in characterSets) {
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'set-button-wrapper';
-                    const button = document.createElement('button');
-                    button.innerText = setName;
-                    button.className = 'btn';
-                    button.addEventListener('click', () => startGame(characterSets[setName]));
-                    wrapper.appendChild(button);
-
-                    const editBtn = document.createElement('button');
-                    editBtn.innerHTML = '&#9998;';
-                    editBtn.className = 'set-action-btn edit-set-btn';
-                    editBtn.title = `Set "${setName}" bearbeiten`;
-                    editBtn.addEventListener('click', (e) => { e.stopPropagation(); prepareEditScreen(setName); });
-                    wrapper.appendChild(editBtn);
-
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.innerHTML = '&times;';
-                    deleteBtn.className = 'set-action-btn delete-set-btn';
-                    deleteBtn.title = `Set "${setName}" löschen`;
-                    deleteBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteSet(setName); });
-                    wrapper.appendChild(deleteBtn);
-                    
-                    setSelectionContainer.appendChild(wrapper);
-                }
-            }
-            switchScreen(screens.start);
-        }
-
-        function prepareCreateScreen() {
-            editCreateForm.reset();
-            originalSetNameInput.value = '';
-            editCreateTitle.innerText = 'Neues Set erstellen';
-            saveSetBtn.innerText = 'Set speichern';
-            characterFieldsContainer.innerHTML = '';
-            addCharacterField();
-            switchScreen(screens.editCreate);
-        }
-
-        function prepareEditScreen(setName) {
-            if (!characterSets[setName]) {
-                alert("Fehler: Dieses Set konnte nicht gefunden werden.");
-                return;
-            }
-            editCreateForm.reset();
-            originalSetNameInput.value = setName;
-            editCreateTitle.innerText = `Set "${setName}" bearbeiten`;
-            saveSetBtn.innerText = 'Änderungen speichern';
-            setNameInput.value = setName;
-            characterFieldsContainer.innerHTML = '';
-            characterSets[setName].forEach(char => {
-                addCharacterField(char.name, char.images);
-            });
-            switchScreen(screens.editCreate);
-        }
-        
-        function addCharacterField(name = '', images = []) {
-            const charIndex = Date.now();
-            const newField = document.createElement('div');
-            newField.className = 'character-field';
-            const imagesAsText = images.join('\n');
-            newField.innerHTML = `
-                <button type="button" class="remove-char-btn" title="Diesen Charakter entfernen">&times;</button>
-                <div class="form-group">
-                    <label for="char-name-${charIndex}">Name des Charakters</label>
-                    <input type="text" id="char-name-${charIndex}" placeholder="z.B. Son Goku" required value="${name}">
-                </div>
-                <div class="form-group">
-                    <label for="char-images-${charIndex}">Bild-URLs (eine URL pro Zeile)</label>
-                    <textarea id="char-images-${charIndex}" rows="3" placeholder="https://beispiel.com/bild1.jpg\nhttps://beispiel.com/bild2.png" required>${imagesAsText}</textarea>
-                </div>
-            `;
-            characterFieldsContainer.appendChild(newField);
-        }
-
-        characterFieldsContainer.addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-char-btn')) {
-                event.target.closest('.character-field').remove();
-            }
-        });
-
-        editCreateForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const newSetName = setNameInput.value.trim();
-            const originalSetName = originalSetNameInput.value;
-
-            if (!newSetName) {
-                return alert("Bitte gib einen Namen für das Set ein.");
-            }
-            if (newSetName.includes('/')) {
-                return alert("Der Name des Sets darf keinen Schrägstrich (/) enthalten.");
-            }
-            if (newSetName === '.' || newSetName === '..') {
-                return alert("Der Name des Sets darf nicht '.' oder '..' sein.");
-            }
-
-            const newCharacters = [];
-            const fields = characterFieldsContainer.getElementsByClassName('character-field');
-            if (fields.length === 0) {
-                 return alert("Ein Set kann nicht leer sein. Bitte füge mindestens einen Charakter hinzu.");
-            }
-
-            for (let i = 0; i < fields.length; i++) {
-                const name = fields[i].querySelector('input[type="text"]').value.trim();
-                const imageUrls = fields[i].querySelector('textarea').value.trim().split('\n').filter(url => url.trim() !== '');
-                if (name && imageUrls.length > 0) newCharacters.push({ name, images: imageUrls });
-            }
-
-            if (newCharacters.length < fields.length) {
-                return alert("Bitte fülle alle Felder für jeden Charakter aus oder entferne leere Felder.");
-            }
-
-            const success = await saveSetToFirestore(newSetName, newCharacters, originalSetName);
-            
-            if (success) {
-                characterSets[newSetName] = newCharacters;
-                if (originalSetName && originalSetName !== newSetName) {
-                    delete characterSets[originalSetName];
-                }
-                displayStartScreen();
-            }
-        });
-
-        function startGame(selectedSet) { currentSet = [...selectedSet].sort(() => Math.random() - 0.5); currentIndex = 0; smashedCharacters = []; switchScreen(screens.game); displayNextCharacter(); }
-        function displayNextCharacter() { if (currentIndex < currentSet.length) { const char = currentSet[currentIndex]; document.getElementById('character-name').innerText = char.name; updateProgressBar(); setupImageSlider(char.images); } else { showSummary(); } }
-        function setupImageSlider(images) { const slider = document.getElementById('image-slider'), dots = document.getElementById('dots-container'); slider.innerHTML = ''; dots.innerHTML = ''; currentImageIndex = 0; slider.style.width = `${images.length * 100}%`; images.forEach((url, i) => { const img = document.createElement('img'); img.src = url; img.style.width = `${100 / images.length}%`; img.className = 'character-image'; slider.appendChild(img); const dot = document.createElement('span'); dot.className = 'dot'; dot.addEventListener('click', () => showImage(i)); dots.appendChild(dot); }); showImage(0); }
-        function showImage(index) { const char = currentSet[currentIndex]; if (!char || !char.images || char.images.length === 0) return; if (index >= char.images.length) index = 0; if (index < 0) index = char.images.length - 1; currentImageIndex = index; document.getElementById('image-slider').style.transform = `translateX(-${index * (100 / char.images.length)}%)`; const dots = document.getElementById('dots-container').children; for(let i=0; i < dots.length; i++) { dots[i].classList.toggle('active', i === index); } }
-        function updateProgressBar() { document.getElementById('progress-bar-fill').style.width = `${((currentIndex + 1) / currentSet.length) * 100}%`; }
-        function handleChoice(choice) { if (choice === 'smash') { const char = currentSet[currentIndex]; smashedCharacters.push({ name: char.name, image: char.images[0] }); } currentIndex++; displayNextCharacter(); }
-        function showSummary() { switchScreen(screens.summary); const list = document.getElementById('smashed-list'); list.innerHTML = ''; if (smashedCharacters.length === 0) { list.innerHTML = '<p>Du hast niemanden gesmasht!</p>'; } else { smashedCharacters.forEach(char => { const el = document.createElement('div'); el.className = 'smashed-character'; el.innerHTML = `<img src="${char.image}" alt="${char.name}"><p>${char.name}</p>`; list.appendChild(el); }); } }
-
-        showCreateScreenBtn.addEventListener('click', prepareCreateScreen);
-        cancelEditCreateBtn.addEventListener('click', displayStartScreen);
-        addCharacterBtn.addEventListener('click', () => addCharacterField());
-        document.getElementById('pass-btn').addEventListener('click', () => handleChoice('pass'));
-        document.getElementById('smash-btn').addEventListener('click', () => handleChoice('smash'));
-        document.getElementById('play-again-btn').addEventListener('click', displayStartScreen);
-        document.getElementById('prev-slide').addEventListener('click', () => showImage(currentImageIndex - 1));
-        document.getElementById('next-slide').addEventListener('click', () => showImage(currentImageIndex + 1));
-        
-        async function startApp() {
-            await loadSetsFromFirestore();
-            displayStartScreen();
-        }
-
-        startApp();
-    </script>
-</body>
-</html>
+        const db = getFirestore(app); 
